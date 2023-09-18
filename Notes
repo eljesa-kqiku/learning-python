@@ -1,0 +1,7 @@
+Function:
+def name_of_function(... params):
+    function body
+
+actual value of a param is called argument
+you can use Positional arguments or Keyword arguments
+Keyword: name_of_function(a = something, b = something)

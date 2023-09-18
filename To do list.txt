@@ -1,0 +1,4 @@
+Day 1:
+Install PyCharm - DONE
+Print cheatsheet - DONE
+Print syllabus/check list - CANCELLED
