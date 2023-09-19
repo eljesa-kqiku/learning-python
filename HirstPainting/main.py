@@ -27,10 +27,12 @@ step = space + dot_radius * 2
 dot_diameter = dot_radius * 2
 screen_size = (dot_diameter + space) * num_dots + 5 * space
 
+# setup Tutle 
 pen = Turtle()
 colormode(255)
 screensize(screen_size, screen_size)
 pen.up()
+pen.hide()
 pen.setposition(-screen_size / 2 + 2 * space, - screen_size / 2 + 2 * space)
 
 for i in range(num_dots):
