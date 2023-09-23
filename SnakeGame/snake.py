@@ -1,4 +1,4 @@
-from turtle import Turtle, Screen
+from turtle import Turtle
 
 
 class Snake:
@@ -10,12 +10,21 @@ class Snake:
         for i in range(3):
             (self.add_new_piece(- 20 * i, 0))
 
+    def head(self):
+        return self.snake_body[0]
+
     def add_new_piece(self, x, y):
         piece = Turtle("square")
         piece.color("white")
         piece.up()
         piece.goto(x=x, y=y)
+        piece.speed("fastest")
         self.snake_body.append(piece)
+
+    def add_new_segment(self):
+        x = self.snake_body[-1].xcor()
+        y = self.snake_body[-1].ycor()
+        self.add_new_piece(x, y)
 
     def move(self):
         # putting the last element at the head
