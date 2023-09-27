@@ -34,13 +34,14 @@ while game_on:
 
     # Detect collision with borders
     if not snake.head().xcor() in range(-300, 301) or not snake.head().ycor() in range(-300, 301):
-        scoreboard.game_over()
-        game_on = False
+        scoreboard.reset()
+        snake.make_snake()
 
     # Detect collision with tail
     for segment in snake.snake_body[1:]:
         if snake.head().distance(segment) < 10:
-            scoreboard.game_over()
-            game_on = False
+            scoreboard.reset()
+            snake.make_snake()
+
 
 screen.exitonclick()
