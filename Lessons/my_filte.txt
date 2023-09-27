@@ -1,0 +1,2 @@
+new text
+Added a new text
