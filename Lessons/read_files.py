@@ -16,3 +16,13 @@ with open("my_filte.txt", mode='a') as file:
 with open("my_filte.txt", mode='r') as file:
     content = file.read()
     print(content)
+
+# opening a file using absolute path
+with open("/Users/Lenovo/Desktop/test_path.txt") as file2:
+    content = file2.read()
+    print(content)
+
+# opening the same file with relative path
+with open("../../../Desktop/test_path.txt") as file2:
+    content = file2.read()
+    print(content)
