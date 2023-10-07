@@ -48,3 +48,12 @@ print(data)
 
 # Saving this data to a file (generates the file)
 data.to_csv("new_files.csv")
+
+# Iterating through rows in a DataFrame
+students_dict = {
+    "student": ["Angela", "James", "Lily"],
+    "scores": [56, 76, 58]
+}
+student_data_frame = pandas.DataFrame(students_dict)
+for(index, row) in student_data_frame.iterrows():
+    print(row.student)
