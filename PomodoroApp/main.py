@@ -1,4 +1,5 @@
 from tkinter import *
+import winsound
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -6,11 +7,15 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
+WORK_MIN = 40
+SHORT_BREAK_MIN = 15
 LONG_BREAK_MIN = 20
 reps = 0
 timer = None
+duration = 1000  # milliseconds
+freq = 440  # Hz
+
+
 # ---------------------------- TIMER RESET ------------------------------- #
 def cancel():
     window.after_cancel(timer)
@@ -22,7 +27,6 @@ def cancel():
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
-
 minutes = WORK_MIN
 
 
@@ -32,7 +36,7 @@ def start():
     work_sec = WORK_MIN * 60
     short_break_sec = SHORT_BREAK_MIN * 60
     long_break_sec = LONG_BREAK_MIN * 60
-
+    winsound.Beep(freq, duration)
     if reps % 8 == 0:
         count_down(long_break_sec)
         title_label.config(text="Break", fg=RED)
@@ -59,6 +63,7 @@ def count_down(count):
         for _ in range(work_sessions):
             mark += "✔"
         checkLabel['text'] = mark
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
