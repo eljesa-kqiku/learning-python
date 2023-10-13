@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, randrange, shuffle
 from pyperclip import copy
+import json
 
 
 # Password Manager
@@ -13,18 +14,47 @@ def save_data():
     password = password_input.get()
 
     if website != '' and email != '' and password != '':
-        is_ok = messagebox.askokcancel(title=website,
-                                       message=f"These are the entered details: \nEmail: {email}\nPassword: {password}\n Proceed saving?")
-        if is_ok:
-            row = f"{website} | {email} | {password}\n"
-
-            with open("data.txt", mode='a') as file:
-                file.write(row)
-
+        new_data = {
+            website: {
+                "email": email,
+                "password": password
+            }
+        }
+        try:
+            with open("data.json", mode='r') as file:
+                # Read old data
+                data = json.load(file)
+        except FileNotFoundError:
+            with open("data.json", mode='w') as file:
+                # Save new data
+                json.dump(new_data, file, indent=4)
+        else:
+            # Update old data
+            data.update(new_data)
+            with open("data.json", mode='w') as file:
+                # Save updated data
+                json.dump(data, file, indent=4)
+        finally:
             website_input.delete(0, END)
             password_input.delete(0, END)
     else:
         messagebox.showinfo(title="Oops", message="Please fill in all fields!")
+
+
+def search():
+    website = website_input.get()
+    try:
+        with open("data.json", mode='r') as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No data file found")
+    else:
+        website_data = data.get(website)
+        if website_data is not None:
+            messagebox.showinfo(title=website,
+                                message=f"Email: {website_data.get('email')}\nPassword: {website_data.get('password')}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No details for {website} found")
 
 
 # Password generator
@@ -68,11 +98,11 @@ password_label = Label(text="Password: ", bg="#ffffff")
 password_label.grid(column=0, row=3)
 
 # Inputs
-website_input = Entry(width=40)
-website_input.grid(column=1, row=1, columnspan=2)
+website_input = Entry(width=22)
+website_input.grid(column=1, row=1)
 website_input.focus()
 
-email_input = Entry(width=40)
+email_input = Entry(width=41)
 email_input.grid(column=1, row=2, columnspan=2)
 email_input.insert(END, 'eljesakqiku@gmail.com')
 
@@ -80,11 +110,15 @@ password_input = Entry(width=22)
 password_input.grid(column=1, row=3)
 
 # Buttons
-generate_password_btn = Button(text="Generate Password", bg='#31C6D4', fg="#ffffff", bd=0, pady=1,
-                               command=generate_password)
+search_btn = Button(text="Search", command=search,
+                    bg='#31C6D4', fg="#ffffff", bd=0, pady=1, width=15)
+search_btn.grid(column=2, row=1)
+
+generate_password_btn = Button(text="Generate Password", command=generate_password,
+                               bg='#31C6D4', fg="#ffffff", bd=0, pady=1,width=15)
 generate_password_btn.grid(column=2, row=3)
 
-add_btn = Button(text="Add", width=34, bg='#27E1C1', fg="#ffffff", bd=0, pady=3, command=save_data)
+add_btn = Button(text="Add", width=35, bg='#27E1C1', fg="#ffffff", bd=0, pady=3, command=save_data)
 add_btn.grid(column=1, row=4, columnspan=2, pady=3)
 
 window.mainloop()
