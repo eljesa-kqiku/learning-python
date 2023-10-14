@@ -9,14 +9,17 @@ data = pandas.read_csv("translated_words.csv")
 all_words = data.to_dict(orient='records')
 
 current_word = None
+
+
 def generate_new_word():
     global current_word, flip_timer
     window.after_cancel(flip_timer)
-    current_word = all_words[random.randint(0, 99)]
+    current_word = all_words[random.choice(all_words)]
     card.itemconfig(card_image, image=front_img)
     card.itemconfig(language_label, text="Arabic", fill="#000000")
     card.itemconfig(word_label, text=current_word['arabic'], fill="#000000")
     flip_timer = window.after(3000, flip_card)
+
 
 # ----- Managing events ---------
 def flip_card():
@@ -25,7 +28,9 @@ def flip_card():
     card.itemconfig(language_label, text="English", fill="#ffffff")
     card.itemconfig(word_label, text=current_word['english'], fill="#ffffff")
 
+
 def right_click():
+    all_words.remove(current_word)
     generate_new_word()
 
 
